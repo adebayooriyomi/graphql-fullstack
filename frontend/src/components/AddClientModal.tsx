@@ -79,7 +79,7 @@ export const AddClientModal = () => {
                         </div>
                     </div>
                     <div className="modal-footer">
-                        <button type="submit" className="btn btn-primary" data-bs-dismiss="modal" >Submit</button>
+                        <button type="submit" className="btn btn-primary">Submit</button>
                     </div>
                 </form>
                 </div>
