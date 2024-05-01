@@ -11,7 +11,7 @@ export const AddProjectModal = () => {
         projectName: '',
         description: '',
         clientId: '',
-        status: 'new'
+        status: 'Not Started'
     })
 
     const [ addProject ] = useMutation(ADD_PROJECT,{
@@ -85,9 +85,9 @@ export const AddProjectModal = () => {
                         <div className="col-md-4 w-100 mb-2">
                             <label htmlFor="status" className="form-label">Status</label>
                             <select className="form-select" name="status" value={formInput.status} onChange={handleChange}>
-                                <option value="new">Not Started</option>
-                                <option value="progress">In Progress</option>
-                                <option value="complete">Completed</option>
+                                <option value="Not Started">Not Started</option>
+                                <option value="In Progress">In Progress</option>
+                                <option value="Completed">Completed</option>
                             </select>
                         </div>
                         <div className="col-md-4 w-100 mb-2">

@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Spinner } from '../components/Spinner'
 import { ClientInfo } from '../components/ClientInfo'
@@ -7,12 +8,16 @@ import { useQuery } from '@apollo/client'
 import { GET_PROJECT } from '../queries/projectQueries'
 
 export const Project = () => {
-
+    const [ show, setShow ] = useState<boolean>(false)
     const { id } = useParams()
     const { loading, error, data } = useQuery(GET_PROJECT, 
         { variables: { id } }
     )
-    console.log(data)
+
+    const handleShowEditForm = () => {
+        setShow(!show)
+    }
+
     if (loading) return <Spinner />
     if (error) return <p>Something Went Wrong</p>
 
@@ -29,9 +34,14 @@ export const Project = () => {
                     <p>{data.project.status}</p>
                     <ClientInfo client={data.project.client} />
 
-                    <EditProjectForm project={data.project} />
-                    
-                    <DeleteProjectButton projectId={data.project.id} />
+                    <EditProjectForm project={data.project} show={show} setShow={handleShowEditForm}/>
+                    <hr/>
+                    <div className="d-flex justify-content-between ms-auto w-100">
+                        <button className="btn btn-info my-2" onClick={handleShowEditForm}>
+                            Edit Project
+                        </button>
+                        <DeleteProjectButton projectId={data.project.id} />
+                    </div>
                 </div>
             )}
         </div>

@@ -109,17 +109,7 @@ const mutation = new GraphQLObjectType({
             args: {
                 name: { type: GraphQLNonNull(GraphQLString)},
                 description: { type: GraphQLNonNull(GraphQLString)},
-                status: {
-                    type: new GraphQLEnumType({ 
-                        name: 'ProjectStatus',
-                        values: {
-                            'new': { value: 'Not Started' },
-                            'progress' : { value: 'In Progress'},
-                            'complete': { value: 'Completed'}
-                        }
-                    }),
-                    defaultValue: 'Not Started',
-                },
+                status: { type: GraphQLNonNull(GraphQLString)},
                 clientId: { type: GraphQLNonNull(GraphQLID) },
             },
             resolve(parent, args) {
@@ -150,29 +140,30 @@ const mutation = new GraphQLObjectType({
                 id: { type: GraphQLNonNull(GraphQLID)},
                 name: { type: GraphQLString },
                 description: { type: GraphQLString },
-                status: {
-                    type: new GraphQLEnumType({
-                        name: 'ProjectStatusUpdate',
-                        values: {
-                            new: { value: 'Not Started' },
-                            progress: { value: 'In Progress' },
-                            completed: { value: 'Completed' },
-                        }
-                    })
-                }
+                status: { type: GraphQLNonNull(GraphQLString)},
             },
-            resolve(parent, args){
-                return Project.findByIdAndUpdate(
-                    args.id,
-                    {
-                        $set: {
-                            name: args.name,
-                            description: args.description,
-                            status: args.status,
-                        }
-                    },
-                    { new: true }
-                )
+            async resolve(parent, args){
+                try {
+                    const update = {};
+                    if (args.name !== undefined) {
+                        update.name = args.name;
+                    }
+                    if (args.description !== undefined) {
+                        update.description = args.description;
+                    }
+                    if (args.status !== undefined) {
+                        update.status = args.status;
+                    }
+        
+                    const updatedProject = await Project.findByIdAndUpdate(args.id, { $set: update }, { new: true });
+                    if (!updatedProject) {
+                        throw new Error("Project not found");
+                    }
+                    return updatedProject;
+                } catch (error) {
+                    console.error("Error updating the project:", error);
+                    throw new Error("Failed to update project due to an internal error.");
+                }
             }
         }
     }

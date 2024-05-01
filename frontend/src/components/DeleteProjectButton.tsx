@@ -15,10 +15,8 @@ export const DeleteProjectButton = ({projectId} : { projectId: string}) => {
     })
     
     return(
-        <div className="d-flex mt-5 ms-auto">
-            <button className="btn btn-danger m-2" onClick={(e)=>deleteProject()}>
-                <FaTrash className='icon' /> Delete Project
-            </button>
-        </div>
+        <button className="btn btn-danger my-2" onClick={(e)=>deleteProject()}>
+            <FaTrash className='icon' /> Delete Project
+        </button>   
     )
 }

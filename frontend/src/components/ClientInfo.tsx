@@ -3,7 +3,7 @@ import { FaEnvelope, FaIdBadge, FaPhone } from 'react-icons/fa'
 
 export const ClientInfo = ({ client }: {client: any}) => {
     return(
-        <div>
+        <div className="mb-3">
             <h5 className="mt-5">Client Information</h5>
             <ul className="list-group">
                 <li className="list-group-item">
